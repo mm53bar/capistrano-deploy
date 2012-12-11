@@ -24,6 +24,11 @@ module CapistranoDeploy
           task :migrate, :roles => :db, :only => {:primary => true} do
             run "cd #{deploy_to} && RAILS_ENV=#{rails_env} #{rake} db:migrate"
           end
+          
+          desc 'Run seeds'
+          task :seed, :roles => :db, :only => {:primary => true} do
+            run "cd #{deploy_to} && RAILS_ENV=#{rails_env} #{rake} db:seed" 
+          end
         end
       end
     end
