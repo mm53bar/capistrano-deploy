@@ -18,8 +18,6 @@ module CapistranoDeploy
           end
         end
 
-        set(:whenever_role) { :db }
-
         namespace :whenever do
           desc 'Update crontab file'
           task :update_crontab, :roles => :whenever_role, :only => {:primary => true} do
