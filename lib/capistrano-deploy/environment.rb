@@ -38,7 +38,7 @@ module CapistranoDeploy
           end
 
           after 'deploy:setup', 'environment:servers:verify'
-          after 'environment:servers:verfiy', 'environment:servers:fetch_config'
+          after 'environment:servers:verify', 'environment:servers:fetch_config'
 
         end
 
