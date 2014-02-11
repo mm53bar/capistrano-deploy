@@ -30,13 +30,13 @@ module CapistranoDeploy
           namespace :local do
             desc "Fetch ENV file from remote git repository to your local machine"
             task :fetch_config do
-              if /^y/i =~ Capistrano::CLI.ui.ask("Do you wish to override the existing #{environment_file} file (y/n)? ")
-                temp_folder = Rails.root.join('tmp', 'env_config')
+              if /^y/i =~ Capistrano::CLI.ui.ask("Do you wish to overwrite your local #{environment_file} file (y/n)? ")
+                temp_folder = './tmp/env_config'
 
-                run_locally "rm -rf #{temp_folder} && git clone -n #{environment_repository} --depth 1 #{temp_folder}"
-                run_locally "cd #{temp_folder} && git checkout HEAD #{app_name}/.env.*"
-                run_locally "cp #{app_name}/.env.* #{Rails.root}"
-                run_locally "cp #{Rails.root}/.env.development #{Rails.root}/.env"
+                system "rm -rf #{temp_folder} && git clone -n #{environment_repository} --depth 1 #{temp_folder}"
+                system "cd #{temp_folder} && git checkout HEAD #{app_name}/.env.*"
+                system "cp #{temp_folder}/#{app_name}/.env.* ."
+                system "cp .env.development .env"
               else
                 puts "Environmental files not updated."
               end
