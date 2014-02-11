@@ -43,7 +43,7 @@ module CapistranoDeploy
             end
           end
 
-          before 'deploy:setup', 'environment:local:fetch_config'
+          before 'multistage:ensure', 'environment:local:fetch_config'
           after 'deploy:setup', 'environment:servers:verify'
           after 'environment:servers:verify', 'environment:servers:fetch_config'
 
