@@ -25,7 +25,6 @@ module CapistranoDeploy
             task :verify do
               run "ssh-keyscan #{environment_host} | tee --append $HOME/.ssh/known_hosts"
             end
-
           end
 
           namespace :local do
@@ -44,6 +43,7 @@ module CapistranoDeploy
             end
           end
 
+          before 'deploy:setup', 'environment:local:fetch_config'
           after 'deploy:setup', 'environment:servers:verify'
           after 'environment:servers:verify', 'environment:servers:fetch_config'
 
