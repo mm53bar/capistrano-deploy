@@ -10,15 +10,13 @@ module CapistranoDeploy
           namespace :servers do
             desc "Copy ENV file from remote git repository to your staging/production servers"
             task :fetch_config, :roles => :app, :except => {:no_release => true} do
-
               if /^y/i =~ Capistrano::CLI.ui.ask("Do you wish to override the existing #{environment_file} file (y/n)? ")
+                path_to_new_env = File.join deploy_to, "tmp", "env_config", app_name, ".env.#{current_stage}"
+                path_to_old_env = File.join deploy_to, environment_file
 
-              path_to_new_env = File.join deploy_to, "tmp", "env_config", app_name, ".env.#{current_stage}"
-              path_to_old_env = File.join deploy_to, environment_file
-
-              run "rm -rf #{deploy_to}/tmp/env_config && git clone -n #{environment_repository} --depth 1 #{deploy_to}/tmp/env_config"
-              run "cd #{deploy_to}/tmp/env_config && git checkout HEAD #{app_name}/.env.#{current_stage}"
-              run "cp #{path_to_new_env}  #{path_to_old_env}"
+                run "rm -rf #{deploy_to}/tmp/env_config && git clone -n #{environment_repository} --depth 1 #{deploy_to}/tmp/env_config"
+                run "cd #{deploy_to}/tmp/env_config && git checkout HEAD #{app_name}/.env.#{current_stage}"
+                run "cp #{path_to_new_env}  #{path_to_old_env}"
               else
                 puts "Config not changed"
               end
@@ -35,6 +33,7 @@ module CapistranoDeploy
             task :fetch_config do
               if /^y/i =~ Capistrano::CLI.ui.ask("Do you wish to override the existing #{environment_file} file (y/n)? ")
                 temp_folder = Rails.root.join('tmp', 'env_config')
+
                 run_locally "rm -rf #{temp_folder} && git clone -n #{environment_repository} --depth 1 #{temp_folder}"
                 run_locally "cd #{temp_folder} && git checkout HEAD #{app_name}/.env.*"
                 run_locally "cp #{app_name}/.env.* #{Rails.root}"
