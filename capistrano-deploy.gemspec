@@ -13,4 +13,6 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
   s.add_dependency('capistrano', '~> 2.9')
+  s.add_dependency('campy', '~> 1.0.0')
+  s.add_dependency('dotenv', '~> 0.8.0')
 end
