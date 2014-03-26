@@ -20,7 +20,7 @@ module CapistranoDeploy
         end
 
         before 'deploy:update', 'campfire:start_msg'
-        after 'deploy:update', 'campfire:end_msg'
+        after 'unicorn:reexec', 'campfire:end_msg'
       end
     end
   end
