@@ -6,7 +6,7 @@ module CapistranoDeploy
 
         set(:api_key) { ENV['NEW_RELIC_API_KEY'] }
         set(:new_relic_app_name) { ENV['NEW_RELIC_APP_NAME'] }
-        set(:new_relic_user) { capture("users").chomp }
+        set(:new_relic_user) { (%x(users)).chomp }
         set(:current_revision) { capture("cd #{deploy_to} && git rev-parse HEAD").chomp }
         set(:link) { "https://api.newrelic.com/deployments.xml" }
 
